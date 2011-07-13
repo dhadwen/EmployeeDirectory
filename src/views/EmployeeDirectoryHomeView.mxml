@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:components="spark.components.*"
+		title="Home">
+	
+	<fx:Declarations>
+		<s:RemoteObject id="srv" destination="employeeService" 
+						endpoint="http://{server}:{port}/{object file path}"
+						result="data=srv.findByName.lastResult"/>
+	</fx:Declarations>
+	
+	<components:navigationContent/>
+	
+	<components:titleContent>
+		<s:TextInput id="key" width="100%"/>
+	</components:titleContent>
+	
+	<components:actionContent>
+		<s:Button icon="@Embed('assets/search.png')" click="srv.findByName(key.text)"/>
+	</components:actionContent>
+	
+	<s:List id="list" top="0" bottom="0" left="0" right="0"
+			dataProvider="{data}"
+			change="navigator.pushView(EmployeeDetails, list.selectedItem)">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:IconItemRenderer label="{data.firstName} {data.lastName}" messageField="title" />
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+</components:View>
